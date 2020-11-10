@@ -6,10 +6,11 @@ FROM gitpod/workspace-full
 #
 # More information: https://www.gitpod.io/docs/config-docker/
 RUN sudo apt-get update \
-    && sudo apt-get install -y curl \
-    && sudo apt install -y snapd \
-    && sudo snap install exercism
+    && sudo apt-get install -y curl
 WORKDIR /workspace
+RUN sudo curl -L -o exercism.tar.gz https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
+    && sudo tar -xzf exercism.tar.gz \
+    && sudo mv exercism /usr/local/bin
 RUN sudo curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz \
     && sudo gunzip elm.gz \
     && sudo chmod +x elm \
