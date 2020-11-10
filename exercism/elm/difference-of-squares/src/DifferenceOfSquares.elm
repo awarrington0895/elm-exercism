@@ -7,13 +7,12 @@ sum n =
         0
 
     else
-        n + (sum (n - 1))
+        n + sum (n - 1)
 
 
 squareOfSum : Int -> Int
-squareOfSum n = 
-    (sum n)^2
-    
+squareOfSum n =
+    sum n ^ 2
 
 
 sumOfSquares : Int -> Int
@@ -22,9 +21,9 @@ sumOfSquares n =
         0
 
     else
-        (n ^ 2) + (sumOfSquares (n - 1))
+        (n ^ 2) + sumOfSquares (n - 1)
 
 
 difference : Int -> Int
 difference n =
-    (squareOfSum n) - (sumOfSquares n)
+    squareOfSum n - sumOfSquares n
