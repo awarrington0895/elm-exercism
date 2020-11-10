@@ -1,20 +1,38 @@
 module RNATranscription exposing (toRNA)
 
+import Dict exposing (Dict)
 
+rnaMap : Dict String String
+rnaMap = Dict.fromList
+    [ ( "C", "G" )
+    , ( "G", "C" )
+    , ( "T", "A" )
+    , ( "A", "U" )
+    ]
+
+
+isNothing : Maybe String -> Bool
+isNothing result =
+    case result of
+        Nothing ->
+            True
+
+        _ ->
+            False
+
+strToRNA : String -> List (Maybe String)
+strToRNA str =
+    str 
+        |> String.split ""
+        |> List.map (\dna -> Dict.get dna rnaMap)
 
 toRNA : String -> Result String String
 toRNA dna =
-    if dna == "C" then
-        Ok "G"
+    case Dict.get dna rnaMap of
+        Nothing ->
+            Err "Not a valid DNA sequence."
 
-    else if dna == "G" then
-        Ok "C"
+        Just rna ->
+            Ok rna
 
-    else if dna == "T" then
-        Ok "A"
-
-    else if dna == "A" then
-        Ok "U"
-
-    else
-        Err "Not a valid DNA sequence"
+        
