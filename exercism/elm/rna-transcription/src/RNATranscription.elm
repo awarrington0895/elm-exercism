@@ -1,38 +1,20 @@
 module RNATranscription exposing (toRNA)
 
-import Dict exposing (Dict)
-
-rnaMap : Dict String String
-rnaMap = Dict.fromList
-    [ ( "C", "G" )
-    , ( "G", "C" )
-    , ( "T", "A" )
-    , ( "A", "U" )
-    ]
+import Nucleotide exposing (Nucleotide)
 
 
-isNothing : Maybe String -> Bool
-isNothing result =
-    case result of
-        Nothing ->
-            True
+combine : List (Maybe a) -> Maybe (List a)
+combine =
+    List.foldr (Maybe.map2 (::)) (Just [])
 
-        _ ->
-            False
-
-strToRNA : String -> List (Maybe String)
-strToRNA str =
-    str 
-        |> String.split ""
-        |> List.map (\dna -> Dict.get dna rnaMap)
 
 toRNA : String -> Result String String
 toRNA dna =
-    case Dict.get dna rnaMap of
-        Nothing ->
-            Err "Not a valid DNA sequence."
-
-        Just rna ->
-            Ok rna
-
-        
+    dna
+        |> String.toList
+        |> List.map Nucleotide.fromChar
+        |> List.map (Maybe.andThen Nucleotide.complement)
+        |> List.map (Maybe.map Nucleotide.toChar)
+        |> combine
+        |> Maybe.map String.fromList
+        |> Result.fromMaybe "Not a valid Nucleotide"
