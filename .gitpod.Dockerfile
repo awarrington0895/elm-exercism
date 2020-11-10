@@ -8,7 +8,7 @@ FROM gitpod/workspace-full
 RUN sudo apt-get update \
     && sudo apt-get install -y curl \
     && sudo apt install -y snapd \
-    && sudo snap install -y exercism
+    && sudo snap install exercism
 WORKDIR /workspace
 RUN sudo curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz \
     && sudo gunzip elm.gz \
